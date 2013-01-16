@@ -128,13 +128,13 @@ class Chef
       end
 
       def server_dns_name
-        server = ec2_connection.servers.find do |s|
-          s.state == "running" &&
-            s.tags['Name'] == config[:chef_node_name] &&
-            s.tags['Role'] == 'chef_server'
+        servers = []
+        ec2_connection.servers.find do |s|
+          if s.state == "running" && s.tags['Name'] == config[:chef_node_name] && s.tags['Role'] == 'chef_server'
+            servers << s
+          end
         end
-
-        server && server.dns_name
+        servers.last && servers.last.dns_name
       end
 
       private
