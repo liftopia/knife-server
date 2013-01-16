@@ -42,6 +42,7 @@ module Knife
         end
 
         result = ""
+        puts 'Connection to: ' + @user + '@' + @host
         Net::SSH.start(@host, @user, @options) do |ssh|
           result = ssh.exec!(full_cmd)
         end
